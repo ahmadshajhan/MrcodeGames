@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MrCode Games</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #00cec9;
+            --text: #2d3436;
+            --bg: #f5f6fa;
+            --card-bg: #ffffff;
+            --header-bg: #ffffff;
+            --footer-bg: #1e272e;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+            --border-radius: 16px;
+        }
+
+        .dark-mode {
+            --primary: #a29bfe;
+            --secondary: #6c5ce7;
+            --text: #f5f6fa;
+            --bg: #1e272e;
+            --card-bg: #2d3436;
+            --header-bg: #2d3436;
+            --footer-bg: #1a2028;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            transition: var(--transition);
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg) 0%, #2c3e50 100%);
+            background-attachment: fixed;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            box-shadow: var(--shadow);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            color: var(--primary);
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-symbol {
+            font-size: 1.4rem;
+            opacity: 0.8;
+            margin-left: 4px;
+            color: var(--accent);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: var(--text);
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(108, 92, 231, 0.1);
+            transform: rotate(15deg);
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-container input {
+            padding: 10px 15px 10px 40px;
+            border-radius: 30px;
+            border: 1px solid #dfe6e9;
+            background-color: var(--card-bg);
+            color: var(--text);
+            width: 200px;
+            transition: var(--transition);
+        }
+
+        .search-container input:focus {
+            width: 250px;
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #b2bec3;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 5%;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 0 10%;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.85;
+            line-height: 1.6;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: rgba(108, 92, 231, 0.1);
+            padding: 15px 25px;
+            border-radius: 12px;
+            min-width: 150px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .game-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            border: 1px solid rgba(108, 92, 231, 0.1);
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .game-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .game-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .game-info {
+            padding: 1.5rem;
+        }
+
+        .game-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .game-title i {
+            color: var(--accent);
+        }
+
+        .game-desc {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .play-btn {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            width: 100%;
+            text-align: center;
+        }
+
+        .play-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            background: var(--card-bg);
+            border: 1px solid rgba(108, 92, 231, 0.1);
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        footer {
+            background-color: var(--footer-bg);
+            color: white;
+            padding: 3rem 5%;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #b2bec3;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b2bec3;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 1rem;
+            }
+            
+            .hero {
+                padding: 0 5%;
+            }
+            
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+            
+            .search-container input {
+                width: 100%;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .stats {
+                gap: 15px;
+            }
+            
+            .stat-card {
+                min-width: 120px;
+                padding: 12px 15px;
+            }
+            
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-gamepad"></i>
+            </div>
+            <div>
+                <div class="logo-text">MrCode Games</div>
+                <div class="logo-symbol">< /></div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search games...">
+            </div>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1>Play. Code. Conquer.</h1>
+            <p>Discover our collection of handcrafted games created with passion and expertise. Each game is a unique experience designed to challenge and entertain.</p>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">Games</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">10M+</div>
+                    <div class="stat-label">Players</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Availability</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-title">
+            <i class="fas fa-gamepad"></i>
+            <h2>Featured Games</h2>
+        </div>
+        
+        <div class="category-filters">
+            <div class="category-btn active">All Games</div>
+            <div class="category-btn">Action</div>
+            <div class="category-btn">Puzzle</div>
+            <div class="category-btn">Arcade</div>
+            <div class="category-btn">Strategy</div>
+        </div>
+
+        <div class="games-grid" id="gamesGrid">
+            <!-- Game cards will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>MrCode Games</h3>
+                <p>Creating immersive gaming experiences since 2023. Our games are crafted with passion and attention to detail.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> All Games</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> New Releases</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Popular Games</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Categories</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Action Games</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Puzzle Games</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Arcade Classics</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Strategy Games</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Adventure Games</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Help Center</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> FAQs</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Report an Issue</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>© 2023 MrCode Games. All rights reserved. Designed and developed with ❤️</p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = themeToggle.querySelector('i');
+        
+        // Check for saved theme preference or use preferred color scheme
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            document.body.classList.add('dark-mode');
+            icon.classList.replace('fa-moon', 'fa-sun');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Game data with correct folder paths
+        const games = [
+            {
+                title: "Candy Crush",
+                desc: "Match colorful candies to progress through levels",
+                image: "https://images.unsplash.com/photo-1616587226154-91eab2a9a98a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "01-Candy-Crush-Game"
+            },
+            {
+                title: "Archery Game",
+                desc: "Test your aim in this archery challenge",
+                image: "https://images.unsplash.com/photo-1600861194942-f883de0dfe96?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "02-Archery-Game"
+            },
+            {
+                title: "Speed Typing",
+                desc: "Improve your typing speed and accuracy",
+                image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "03-Speed-Typing-Game"
+            },
+            {
+                title: "Breakout",
+                desc: "Classic brick breaking game",
+                image: "https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "04-Breakout-Game"
+            },
+            {
+                title: "Minesweeper",
+                desc: "Find mines without detonating them",
+                image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "05-Minesweeper-Game"
+            },
+            {
+                title: "Tower Blocks",
+                desc: "Stack blocks as high as you can",
+                image: "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "06-Tower-Blocks"
+            },
+            {
+                title: "Ping Pong",
+                desc: "Classic table tennis game",
+                image: "https://images.unsplash.com/photo-1587280501635-68a0e82cd5ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "07-Ping-Pong-Game"
+            },
+            {
+                title: "Tetris",
+                desc: "Arrange falling blocks to clear lines",
+                image: "https://images.unsplash.com/photo-1591030434469-3d78c7b17820?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "08-Tetris-Game"
+            },
+            {
+                title: "Tilting Maze",
+                desc: "Guide the ball through the maze",
+                image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "09-Tilting-Maze-Game"
+            },
+            {
+                title: "Memory Card",
+                desc: "Match pairs of cards",
+                image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "10-Memory-Card-Game"
+            },
+            {
+                title: "Rock Paper Scissors",
+                desc: "Classic hand game",
+                image: "https://images.unsplash.com/photo-1611252871533-6c1f6a0d3b7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "11-Rock-Paper-Scissors"
+            },
+            {
+                title: "Number Guessing",
+                desc: "Guess the hidden number",
+                image: "https://images.unsplash.com/photo-1566837945700-30057527ade0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "12-Type-Number-Guessing-Game"
+            },
+            {
+                title: "Tic Tac Toe",
+                desc: "Classic X and O game",
+                image: "https://images.unsplash.com/photo-1617942791959-65c9b0a5d0c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "13-Tic-Tac-Toe"
+            },
+            {
+                title: "Snake Game",
+                desc: "Classic snake eating apples",
+                image: "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "14-Snake-Game"
+            },
+            {
+                title: "Connect Four",
+                desc: "Connect four discs in a row",
+                image: "https://images.unsplash.com/photo-1611252871533-6c1f6a0d3b7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "15-Connect-Four-Game"
+            },
+            {
+                title: "Insect Catch",
+                desc: "Catch insects in this fun game",
+                image: "https://images.unsplash.com/photo-1611252871533-6c1f6a0d3b7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "16-Insect-Catch-Game"
+            },
+            {
+                title: "Typing Game",
+                desc: "Practice your typing skills",
+                image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "17-Typing-Game"
+            },
+            {
+                title: "Hangman",
+                desc: "Guess the word before the man hangs",
+                image: "https://images.unsplash.com/photo-1611252871533-6c1f6a0d3b7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "18-Hangman-Game"
+            },
+            {
+                title: "Flappy Bird",
+                desc: "Navigate through pipes",
+                image: "https://images.unsplash.com/photo-1611252871533-6c1f6a0d3b7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "19-Flappy-Bird-Game"
+            },
+            {
+                title: "Crossy Road",
+                desc: "Cross the road without getting hit",
+                image: "https://images.unsplash.com/photo-1611252871533-6c1f6a0d3b7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "20-Crossy-Road-Game"
+            },
+            {
+                title: "2048 Game",
+                desc: "Combine tiles to reach 2048",
+                image: "https://images.unsplash.com/photo-1611252871533-6c1f6a0d3b7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "21-2048-Game"
+            },
+            {
+                title: "Dice Roll Simulator",
+                desc: "Roll virtual dice for games",
+                image: "https://images.unsplash.com/photo-1611252871533-6c1f6a0d3b7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "22-Dice-Roll-Simulator"
+            },
+            {
+                title: "Shape Clicker",
+                desc: "Click the correct shapes quickly",
+                image: "https://images.unsplash.com/photo-1611252871533-6c1f6a0d3b7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "23-Shape-Clicker-Game"
+            },
+            {
+                title: "Number Guessing",
+                desc: "Guess the number the computer is thinking",
+                image: "https://images.unsplash.com/photo-1566837945700-30057527ade0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "24-Number-Guessing-Game"
+            },
+            {
+                title: "Fruit Slicer",
+                desc: "Slice fruits as they fly through the air",
+                image: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                folder: "25-Fruit-Slicer-Game"
+            }
+        ];
+
+        // Render game cards
+        const gamesGrid = document.getElementById('gamesGrid');
+        
+        games.forEach((game, index) => {
+            const gameCard = document.createElement('div');
+            gameCard.className = 'game-card';
+            
+            // Create badge for new games
+            const badge = index < 5 ? `<div class="game-badge">NEW</div>` : '';
+            
+            gameCard.innerHTML = `
+                <img src="${game.image}" alt="${game.title}" class="game-image">
+                ${badge}
+                <div class="game-info">
+                    <h3 class="game-title"><i class="fas fa-dice"></i> ${game.title}</h3>
+                    <p class="game-desc">${game.desc}</p>
+                    <a href="${game.folder}/index.html" class="play-btn">Play Now</a>
+                </div>
+            `;
+            gamesGrid.appendChild(gameCard);
+        });
+
+        // Category filter functionality
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
